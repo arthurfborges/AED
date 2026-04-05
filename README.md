@@ -1,9 +1,9 @@
-This is the central repo for my solutions and general studies for the AED class. It contains all the solutions for leetcode problems solved in preparation for the tests in class and also some solutions for problems from other sources such as [programação descomplicada](https://programacaodescomplicada.wordpress.com/complementar/).
 
-The studies here stored have as a main focus, the following themes:
+This is the central repository for my solutions and general studies for the AED course. It contains solutions to LeetCode problems solved in preparation for course exams, as well as solutions to problems from other sources such as [Programação Descomplicada](https://programacaodescomplicada.wordpress.com/complementar/).
 
-**Memory Management:** Dynamic allocation, memory leak control, direct manipulation of pointers and structs.
+The material stored here mainly focuses on the following topics:
 
-**Classic Data Structures:** Building from scratch dynamic arrays, linked lists, stacks, queues, trees, among others.
+* **Memory Management:** Dynamic allocation, memory leak control, and direct manipulation of pointers and structs.
+* **Classic Data Structures:** Building dynamic arrays, linked lists, stacks, queues, trees, and other structures from scratch.
 
-**Algorithms and Performance:** Sorting methods, search algorithms, and concepts of time and space complexity.
+* **Algorithms and Performance:** Sorting methods, search algorithms, and concepts of time and space complexity.
