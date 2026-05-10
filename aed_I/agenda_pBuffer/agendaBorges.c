@@ -1,38 +1,17 @@
+// sizeof(int) [int*select] - fixo no inicio de pBuffer, usado para seleção no menu
+// sizeof(int) [int* numCont] - fixo no inicio de pBuffer, contem o numero de pessoas na agenda
+// 350 bytes   [char* temp] - fixo no inicio de pBuffer, temp para o scanf 
+
+// ordem dos dados variaveis por pessoa:
+//     [int* age][int* Sname][char* name][int* Semail][char* email]
+//     Sname - tamanho da string name
+//     Semail - tamanho da string email
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define STATIC_STR_SIZE 350
 #define INITIAL_SIZE (3*sizeof(int) + STATIC_STR_SIZE)
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-// ajustar mensagens de err9o de malloc e realloc antes de entr3egar o trabalho
-
-
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
-// organizaçao pBuffer
-// sizeof(int) [int*select] - fixo no inicio de pBuffer, usado para seleção no menu
-// sizeof(int) [int* numCont] - fixo no inicio de pBuffer, contem o numero de pessoas na agenda
-// 350 bytes  [char* temp] - fixo no inicio de pBuffer, temp para o scanf 
-
-
-
-// ordem dos dados variaveis por pessoa
-
-// [int* age][int* Sname][char* name][int* Semail][char* email]
-
-
-// Sname - tamanho da string name
-// Semail - tamanho da string email
-
-// ponteiros do tipo char* sao autoexplicativos
-
-
-
-
 
 void add    (void **pbuffer);
 void remova (void **pbuffer);            
@@ -46,6 +25,10 @@ char* temp;
 int main() {
     
     pbuffer = malloc(INITIAL_SIZE);
+    if(!pbuffer){
+        printf("erro ao alocar 1");
+        exit(1);
+    }
     int* select = ( int* )pbuffer;
 
     numCont = (int*)pbuffer + 1;
@@ -57,7 +40,7 @@ int main() {
     temp = (char*)(pbuffer) + 3* sizeof(int); // ?????????????
 
     do{
-        printf("escolha uma opção: \n1- Adicionar Pessoa (Nome, Idade, email)\n2- Remover Pessoa\n3- Buscar Pessoa\n4- Listar todos\n5- Sair");
+        printf("escolha uma opção: \n1- Adicionar Pessoa (Nome, Idade, email)\n2- Remover Pessoa\n3- Buscar Pessoa\n4- Listar todos\n5- Sair \n");
         scanf("%d", select);
         getchar();
         
@@ -78,42 +61,44 @@ int main() {
                 list(&pbuffer);
                 break;
             case 5:
-                printf("saindo...");
+                printf("saindo... \n");
                 free(pbuffer);
                 break;
             default:
-                printf("numero que digitou nao esta nas opçoes de menu, tente novamente");
+                printf("numero que digitou nao esta nas opçoes de menu, tente novamente\n");
             break;
         }
-
     }while(*select != 5);
-        
-
 }
-
-
 
 void add  (void **pbuffer){
 
-    
     //IDADE
 
     *pbuffer = realloc((*pbuffer), INITIAL_SIZE + (*usedBytes) + sizeof(int));
+        if(!pbuffer){
+            printf("erro ao alocar 2");
+            exit(1);
+        }
     temp = (char*)(*pbuffer) + 3*sizeof(int); // pra nao perder o lugar
     int* age = (int*)((char*)(*pbuffer) + INITIAL_SIZE + (*usedBytes)) ;
-
     
-    printf("digite a idade do contato que deseja adicionar");
+    printf("Digite a idade do contato que deseja adicionar: \n\t");
     scanf("%d", age);
     getchar();
     
     (*usedBytes) += sizeof(int);
+
     // NOME
 
-    printf("digite o nome do contato que deseja adicionar");
+    printf("Digite o nome do contato que deseja adicionar: \n\t");
         fgets(temp, 349, stdin);
 
         *pbuffer = realloc((*pbuffer), INITIAL_SIZE + (*usedBytes) + sizeof(int));
+            if(!pbuffer){
+            printf("erro ao alocar 3");
+            exit(1);
+        }
         temp = (char*)(*pbuffer) + 3*sizeof(int);
         int* Sname = (int*)((char*)(*pbuffer) + INITIAL_SIZE + (*usedBytes));
 
@@ -122,6 +107,10 @@ void add  (void **pbuffer){
         (*usedBytes) += sizeof(int);
 
         *pbuffer = realloc((*pbuffer), INITIAL_SIZE + (*usedBytes) + (*Sname));
+            if(!pbuffer){
+            printf("erro ao alocar 4");
+            exit(1);
+        }
         temp = (char*)(*pbuffer) + 3*sizeof(int);
         char* name = (char*)(*pbuffer) + INITIAL_SIZE + (*usedBytes);
  
@@ -131,10 +120,14 @@ void add  (void **pbuffer){
 
     // EMAIL
 
-    printf("digite o email do contato que deseja adicionar");
+    printf("Digite o email do contato que deseja adicionar:\n\t");
         fgets(temp, 349, stdin);
 
         *pbuffer = realloc((*pbuffer),  INITIAL_SIZE + (*usedBytes) + sizeof(int));
+            if(!pbuffer){
+            printf("erro ao alocar 5");
+            exit(1);
+        }
         temp = (char*)(*pbuffer) + 3*sizeof(int);
         int* Semail = (int*)((char*)(*pbuffer) + INITIAL_SIZE + (*usedBytes));
 
@@ -143,6 +136,10 @@ void add  (void **pbuffer){
         (*usedBytes) += sizeof(int);
 
         *pbuffer = realloc((*pbuffer),  INITIAL_SIZE + (*usedBytes) + (*Semail));
+            if(!pbuffer){
+            printf("erro ao alocar 6");
+            exit(1);
+        }
         temp = (char*)(*pbuffer) + 3*sizeof(int);
         char* email = (char*)(*pbuffer) + INITIAL_SIZE + (*usedBytes);
         
@@ -153,16 +150,14 @@ void add  (void **pbuffer){
 
 void remova (void **pbuffer){
     // busca
-    printf("digite o nome do contato que deseja deletar:");
+    printf("Digite o nome do contato que deseja deletar: \n\t");
         fgets(temp, 349, stdin);
 
     char*totalSearched = (char*)(*pbuffer) + INITIAL_SIZE;
     char*final= (char*)(*pbuffer) + INITIAL_SIZE + (*usedBytes);
     char *current = (char*)(*pbuffer);
 
-
     while(totalSearched < final){
-
 
         int* age =  (int*)totalSearched;
         int* Sname = (int*)((char*)totalSearched + sizeof(int));
@@ -182,7 +177,7 @@ void remova (void **pbuffer){
             (*usedBytes) -= (3*sizeof(int) + *Sname + *Semail);
             (*numCont)--;
 
-            printf("removido com sucesso!");
+            printf("Removido com sucesso! \n");
             return;  
         }
         
@@ -195,7 +190,7 @@ void remova (void **pbuffer){
 }           
 
 void search (void **pbuffer){
-    printf("digite o nome que deseja procurar:");
+    printf("Digite o nome que deseja procurar: \n\t");
         fgets(temp, 349, stdin);
 
     char*current = (char*)(*pbuffer) + INITIAL_SIZE;
@@ -208,12 +203,11 @@ void search (void **pbuffer){
         char* name = (char*)current + 2*sizeof(int);
         char* email = (char*)current +  3*sizeof(int) + *Sname ;
 
-
         if(strcmp(temp, name) == 0){
             printf("@@@@@  BUSCA  @@@@@\n");
-            printf("Nome: %s \n", name);
+            printf("Nome: %s ", name);
             printf("Idade: %d \n", *age);
-            printf("E-mail: %s \n", email);
+            printf("E-mail: %s ", email);
             printf("@@@@@@@@@@@@@@@@@@@\n");
             return;  
         }
@@ -222,9 +216,8 @@ void search (void **pbuffer){
         
     }
 
-    printf("Contato nao encontrado.");
+    printf("Contato nao encontrado. \n");
     
-
 }
 
 void list (void **pbuffer){
@@ -241,15 +234,11 @@ void list (void **pbuffer){
 
         current = current +  3*sizeof(int) + *Sname + *Semail;
         
-        printf("Nome: %s \n", name);
+        printf("Nome: %s ", name);
         printf("Idade: %d \n", *age);
-        printf("E-mail: %s \n", email);
+        printf("E-mail: %s ", email);
         printf("##################\n");
-        
-        
     }
-
-
 }
 
 
