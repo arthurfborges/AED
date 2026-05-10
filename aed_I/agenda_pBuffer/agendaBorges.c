@@ -105,7 +105,7 @@ int main(  ) {
     } while ( *select != 5 );
 }
 
-void Add  ( void **pbuffer ){
+void Add  ( void **pbuffer ){ // complexidade pior caso O(N) - inserção no final de pbuffer
 
     //IDADE
 
@@ -114,7 +114,7 @@ void Add  ( void **pbuffer ){
             printf ( "erro ao alocar 2" );
             exit ( 1 );
         }
-    temp = ( char* )( *pbuffer ) + 3*sizeof( int ); // pra nao perder o lugar
+    temp = ( char* )( *pbuffer ) + 3*sizeof( int ); // pra nao perder o lugar, pode apontar para endereço invalido
     int* age = ( int* )( ( char* )( *pbuffer ) + INITIAL_SIZE + ( *usedBytes )) ;
     
     printf ( "Digite a idade do contato que deseja adicionar: \n\t" );
@@ -182,7 +182,7 @@ void Add  ( void **pbuffer ){
         ( *usedBytes ) += *Semail;
 }
 
-void Remova ( void **pbuffer ){
+void Remova ( void **pbuffer ){  // complexidade O(N) 
     // busca
     printf ( "Digite o nome do contato que deseja deletar: \n\t" );
         fgets ( temp, 349, stdin );
@@ -223,7 +223,7 @@ void Remova ( void **pbuffer ){
 
 }           
 
-void Search ( void **pbuffer ) {
+void Search ( void **pbuffer ) {  // complexidade O(N) 
     printf ( "Digite o nome que deseja procurar: \n\t" );
         fgets ( temp, 349, stdin );
 
@@ -254,7 +254,7 @@ void Search ( void **pbuffer ) {
 
 }
 
-void List ( void **pbuffer ) {
+void List ( void **pbuffer ) {  // complexidade O(N) 
     char*current = ( char* )( *pbuffer ) + INITIAL_SIZE;
     char*final= ( char* )(*pbuffer ) + INITIAL_SIZE + ( *usedBytes );
 
@@ -275,14 +275,4 @@ void List ( void **pbuffer ) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
+// complexidade geral O(N) - N = numero de contatos
