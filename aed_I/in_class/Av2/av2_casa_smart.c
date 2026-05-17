@@ -20,7 +20,6 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize) {
             // cond 1: previne acessar memoria invalida 
             // cond 2: verifica se numero analisado é maior que o do topo da pilha
 
-
             output[stack[top]] = nums[indice_atual];
             top--; // pop
         }

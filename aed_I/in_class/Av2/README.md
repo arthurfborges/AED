@@ -1,6 +1,6 @@
 # Arthur Borges - M1 - 25101666
 
-## Next Greater Element
+## 503 - Next Greater Element
 
 
 Given a circular integer array `nums` (i.e., the next element of `nums[nums.length - 1]` is `nums[0]`), return *the **next greater number** for every element in* `nums`.
@@ -25,9 +25,8 @@ The second 1's next greater number needs to search circularly, which is also 2.
 **Example 3:**
 
 <pre><strong>Input:</strong> nums = [2,1,2]
-<strong>Output:</strong> [-1,2,-1]</pre>
+<strong>Output:</strong> [-1,2,-1]</pre
 
-![1778965735410](image/README/1778965735410.png)
-
+![1779035943333](image/README/1779035943333.png)
 
 ISSUE 1: em todos os tstcases, o codigo falhava no ultimo element do array, acontecia porque no if(x > numsSize), para o ultimo elemento nao funciona ja que na ultima iteração, x é igual a numsSize, entao ele funcionava em todos e nunca chegava a entrar no if por causa deste problema.
