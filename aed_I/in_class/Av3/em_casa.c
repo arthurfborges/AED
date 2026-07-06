@@ -209,7 +209,7 @@ ContaMaiores_r
 conta o numero de valores ja inseridos que sao menores que o atual que esta sendo inserido
 ====================
 */
-int ContaMaiores_r_r( no_t *aux, int valor ){
+int ContaMaiores_r( no_t *aux, int valor ){
     if ( !aux ) {
         return 0;
     }
