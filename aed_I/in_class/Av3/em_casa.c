@@ -202,18 +202,25 @@ void Liberar_r( no_t *n ) {
 	free( n );
 }
 
-int contaMaiores(no_t *aux, int valor){
-    if (!aux){
+/*
+====================
+ContaMaiores_r
+
+conta o numero de valores ja inseridos que sao menores que o atual que esta sendo inserido
+====================
+*/
+int ContaMaiores_r_r( no_t *aux, int valor ){
+    if ( !aux ) {
         return 0;
     }
 
-    if (valor < aux->valor){
+    if ( valor < aux->valor ) {
         // continua pela esquerda e add +1 para cada nó da direita, porque todos os da direita sao maiores
-        return 1 + Tamanho(aux->dir) + contaMaiores(aux->esq, valor);
+        return 1 + Tamanho( aux->dir ) + ContaMaiores_r( aux->esq, valor );
     }
 
     // nao deu entao segue pela direita para procurar algum q seja maior que o proprio nó
-    return contaMaiores(aux->dir, valor);
+    return ContaMaiores_r( aux->dir, valor );
 }
 
 /*
@@ -240,21 +247,21 @@ bool isIdealPermutation( int *nums, int numsSize ) {
 	//} no_t;
 
     //LOCAL             (ratiei, nao me liguei que AVL seria usada só para o global e acabei nao colocando o local aqui dentro)
-    	for (int i = 0; i + 1 < numsSize; i++ ) {
+    for ( int i = 0; i + 1 < numsSize; i++ ) {
 		if ( nums[i] > nums[i + 1] ) {
 			local++;
 		}
 	}
 
 	// GLOBAL inversão global é quando um nó que vai entrar é menor( nums[i] > nums[j] ) que algum dos nós que já foi inserido(i<j)
-	for(int i = 0; i<numsSize; i++){
-        global += contaMaiores(root, nums[i]);
-		root = Inserir_r(root, nums[i]);
+	for( int i = 0 ; i<numsSize ; i++ ) {
+        global += ContaMaiores_r( root, nums[i] );
+		root = Inserir_r( root, nums[i] );
 	}
 
-    Liberar_r(root);
+    Liberar_r( root );
 
-	if (global == local){
+	if ( global == local ) {
         return true;
     } else {
         return false;
