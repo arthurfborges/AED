@@ -226,7 +226,7 @@ RESOLVER ESSA FUNCAO USANDO ARVORE AVL PARA CONTAR O NUMERO DE INVERSOES GLOBAIS
 ====================
 */
 bool isIdealPermutation( int *nums, int numsSize ) {
-	no_t *root = malloc( sizeof( no_t ) );
+	no_t *root;
     root = NULL;
 	long long global = 0;
 	long long local = 0;
