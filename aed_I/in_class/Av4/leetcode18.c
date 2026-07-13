@@ -148,7 +148,7 @@ int **fourSum( int *nums, int numsSize, int target,
 
 	while(i < l){
 		while (k > j){
-			if(nums[i] + nums[l] > target){ // anda o j pra procurar um que baixe
+			if(nums[i] + nums[l] >target){ // anda o j pra procurar um que baixe
 				while(achou4 == false){
 					if (nums[i] + nums[l] + nums[j] > target || nums[i] + nums[l] + nums[k] > target ){// ainda deu maior
 						j++; // segue andando o j
