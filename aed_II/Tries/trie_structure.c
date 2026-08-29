@@ -101,8 +101,11 @@ void trie_busca_prefixo(trieNode *rootNode, char *prefixo, char **palavras){
     }
     
     // current =  ultima letra do prefixo
+
+    char auxStr[100]; 
+    strcpy(auxStr, prefixo);
     
-    checkerDFS(current, );
+    checkerDFS(current, auxStr, palavras);
     
 
     
