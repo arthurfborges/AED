@@ -71,6 +71,11 @@ void insertWord ( char* word, trieNode *rootNode ){
     current->fimDaPalavra = true;
 }
 
+void checkerDFS(trieNode* node, char *auxStr, char **palavrasList
+){
+
+}
+
 void trie_busca_prefixo(trieNode *rootNode, char *prefixo, char **palavras){
     
     int len_prefixo = strlen( prefixo );
@@ -79,38 +84,30 @@ void trie_busca_prefixo(trieNode *rootNode, char *prefixo, char **palavras){
         return false;
     }
 
-    trieNode *aux = rootNode;
+    trieNode *current = rootNode;
     int i = 0;
 
     while ( i < len_prefixo ) {
         int j = (int) prefixo[i] - 'a';
-        if ( !aux->child[j] )
+        if ( !current->child[j] )
             return;
 
-        aux = aux->child[j];
+        current = current->child[j];
         i++;
     }
 
     if (findWord(prefixo, rootNode)){
-        
+        //adiciona prefixo à lista
     }
     
-    // aux =  ultima letra do prefixo
-
-    // bat
+    // current =  ultima letra do prefixo
     
-    // batman
-    // bater
-    // batida
-    // batatao
-
-    while( !aux->fimDaPalavra && palavraListada(palavras)){
-
-
-}
-
-bool palavraListada(){
+    checkerDFS(current, );
     
+
+    
+
+
 }
 
 
