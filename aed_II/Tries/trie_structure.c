@@ -4,6 +4,7 @@
 #include <string.h>
 
 #define ALPHABET_SIZE 26
+#define TAM_MAX_PAL 50
 
 typedef struct trieNode{
     struct trieNode *child[ALPHABET_SIZE];
@@ -17,13 +18,20 @@ void trie_busca_prefixo(trieNode *root, char *prefixo, char **palavras);
 
 int main(){
 
-    char* word = "batata";
+    char* word = "desatento";
 
     trieNode *root = createNode();
-    insertWord("batman", root);
+    insertWord("desatento", root);
+    insertWord("desanima", root);
+    insertWord("desanimar", root);
+    insertWord("desfaz", root);
+    insertWord("desfazer", root);
+    insertWord("descobri", root);
+    insertWord("descobrir", root);
 
-    bool isWordFound = findWord(word, root);
-    printf("Real ou faike: %d\n", isWordFound);
+
+    bool isWordThere = findWord(word, root);
+    printf("Real ou faike: %d\n", isWordThere);
 
 }
 
@@ -71,13 +79,12 @@ void insertWord ( char* word, trieNode *rootNode ){
     current->fimDaPalavra = true;
 }
 
-void checkerDFS(trieNode* node, char *auxStr, char **palavrasList
-){
-
-}
-
-void trie_busca_prefixo(trieNode *rootNode, char *prefixo, char **palavras){
+void trie_busca_prefixo ( trieNode *rootNode, char *prefixo, char **palavras ) {
     
+    if ( !rootNode ){
+        return;
+    }
+
     int len_prefixo = strlen( prefixo );
     
     if ( len_prefixo == 0 ) {
@@ -87,7 +94,7 @@ void trie_busca_prefixo(trieNode *rootNode, char *prefixo, char **palavras){
     trieNode *current = rootNode;
     int i = 0;
 
-    while ( i < len_prefixo ) {
+    while ( i < len_prefixo ) { // avança todas as posicoes do prefixo
         int j = (int) prefixo[i] - 'a';
         if ( !current->child[j] )
             return;
@@ -96,21 +103,49 @@ void trie_busca_prefixo(trieNode *rootNode, char *prefixo, char **palavras){
         i++;
     }
 
-    if (findWord(prefixo, rootNode)){
-        //adiciona prefixo à lista
+    int num_PalavrasEncontradas = 0;
+    
+    if (findWord(prefixo, rootNode)){ //adiciona prefixo à lista
+        palavras = realloc(palavras, (num_PalavrasEncontradas + 1) * sizeof(char*)); // talvez precise especificar tipo para compilar @@@@@@@@@@@@@@@@@@@@@@@@ porque realloc?
+        palavras[num_PalavrasEncontradas] = malloc(strlen(prefixo) + 1);
+        strcpy(palavras[num_PalavrasEncontradas], prefixo);
+        num_PalavrasEncontradas++;
     }
     
-    // current =  ultima letra do prefixo
-
-    char auxStr[100]; 
-    strcpy(auxStr, prefixo);
-    
-    checkerDFS(current, auxStr, palavras);
-    
+    char *auxStr = malloc( (strlen(prefixo) + 1 ) * sizeof(char)); 
+    strcpy(auxStr, prefixo); // precisa garantir que a palavra tem o '\0' @@@@@@@@@@@ só quando for adicionar ela à matriz de palavras nao?
 
     
-
-
+    // current =  nó da ultima letra do prefixo
+    int nivel = 0;
+    checkerDFS(current, auxStr, palavras, num_PalavrasEncontradas, nivel);
+    
 }
+ 
+void checkerDFS ( trieNode* node, char *auxStr, char **palavras, int *num_PalavrasEncontradas, int nivel ) {
 
+    if ( !node ){
+        return;
+    }
 
+    bool child_visited[ALPHABET_SIZE] = { 0 };
+    
+    if ( node->fimDaPalavra ) {
+        // adiciona palavra a lista
+    }
+    
+    for ( int i = 0; i < ALPHABET_SIZE; i++ ){
+        if(node->child[i]){
+            char caractereAtual = ( i + 'a' );
+            auxStr[nivel + 1] = caractereAtual;
+            auxStr[nivel + 2] = '\0';
+
+            trie_busca_prefixo(node->child[i], auxStr, palavras); // chama para cada filho
+            child_visited[i] = true;
+            nivel++; // cada vez que explora mais um nó
+        }
+    }
+
+    return;
+    
+}
